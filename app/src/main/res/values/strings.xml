@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Cliente</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menuitem_add_livro">Adicionar um Cliente</string>
+    <string name="menuitem_edit_livro">Alterar um Cliente</string>
+    <string name="menuitem_delete_livro">Excluir um Cliente</string>
+
+    <string name="title_activity_main">Clientes</string>
+
+    <string name="titulo">Nome do Cliente</string>
+    <string name="editora">Editora do Livro</string>
+    <string name="isbn">ISBN do Livro</string>
+
+    <string name="rotuloTitulo">Título do Livro:</string>
+    <string name="rotuloEditora">Editora:</string>
+    <string name="rotuloISBN">ISBN:</string>
+    <string name="gravar">Gravar Livro</string>
+
+    <string name="tituloErro">Necessário preencher o título do livro!</string>
+    <string name="mensagemErro">Você deve digitar um título para o livro</string>
+    <string name="botaoErro">OK</string>
+    <string name="botao_cancel">Cancel</string>
+    <string name="botao_delete">Delete</string>
+
+    <string name="confirmaTitulo">Você está certo?</string>
+    <string name="confirmaMensagem">Essa ação irá excluir permanentement o cliente!</string>
+    <string name="title_activity_add_novo_livro">AddNovoClienteActivity</string>
+    <string name="title_activity_view_livros">ViewClienteActivity</string>
+    <string name="title_activity_consulta_livros">ConsultaClientesActivity</string>
+</resources>

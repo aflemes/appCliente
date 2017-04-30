@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aula_android.appCliente">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.aula_android.appCliente.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.aula_android.appCliente.AddNovoClienteActivity"
+            android:label="@string/title_activity_add_novo_livro"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.aula_android.appCliente.ViewClienteActivity"
+            android:label="@string/title_activity_view_livros"
+            android:theme="@style/AppTheme.NoActionBar" />
+    </application>
+
+</manifest>
