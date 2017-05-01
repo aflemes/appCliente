@@ -9,8 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.aula_android.appCliente.ConsultaLivrosActivity"
     tools:showIn="@layout/activity_consulta_clientes">
+    <!--tools:context="com.aula_android.appCliente.ConsultaLivrosActivity"<!-->
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="fill_parent"
@@ -19,14 +19,14 @@
         <TextView
             android:id="@+id/textView1"
             style="@style/LivroLabelTextView"
-            android:text="@string/rotuloTitulo"
+            android:text="@string/rotuloNome"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/lblTitulo"
+            android:id="@+id/lblNome"
             style="@style/LivroTextView"
-            android:text="@string/titulo"
+            android:text="@string/nome"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 
@@ -40,14 +40,14 @@
         <TextView
             android:id="@+id/textView2"
             style="@style/LivroLabelTextView"
-            android:text="@string/rotuloEditora"
+            android:text="@string/rotuloCidade"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/lblEditora"
+            android:id="@+id/lblCidade"
             style="@style/LivroTextView"
-            android:text="@string/editora"
+            android:text="@string/cidade"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 
@@ -61,14 +61,14 @@
         <TextView
             android:id="@+id/textView3"
             style="@style/LivroLabelTextView"
-            android:text="@string/rotuloISBN"
+            android:text="@string/rotuloTelefone"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/lblISBN"
+            android:id="@+id/lblTelefone"
             style="@style/LivroTextView"
-            android:text="@string/isbn"
+            android:text="@string/telefone"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 

@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 public class ViewClienteActivity extends AppCompatActivity {
     private long idLinha;
-    private TextView lblTitulo;
-    private TextView lblEditora;
-    private TextView lblISBN;
+    private TextView lblNome;
+    private TextView lblCidade;
+    private TextView lblTelefone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +26,9 @@ public class ViewClienteActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lblTitulo = (TextView) findViewById(R.id.lblTitulo);
-        lblEditora = (TextView) findViewById(R.id.lblEditora);
-        lblISBN = (TextView) findViewById(R.id.lblISBN);
+        lblNome = (TextView) findViewById(R.id.lblNome);
+        lblCidade = (TextView) findViewById(R.id.lblCidade);
+        lblTelefone = (TextView) findViewById(R.id.lblTelefone);
 
         Bundle extras = getIntent().getExtras();
         idLinha = extras.getLong(MainActivity.LINHA_ID);
@@ -56,7 +56,7 @@ public class ViewClienteActivity extends AppCompatActivity {
         @Override
         protected Cursor doInBackground(Long... params){
             databaseConnector.open();
-            return databaseConnector.getLivro(params[0]);
+            return databaseConnector.getCliente(params[0]);
         }
         // Usa o Cursor retornado do método doInBackground
         @Override
@@ -65,13 +65,13 @@ public class ViewClienteActivity extends AppCompatActivity {
 
             result.moveToFirst();
 
-            int tituloIndex = result.getColumnIndex("titulo");
-            int editoraIndex = result.getColumnIndex("editora");
-            int isbnIndex = result.getColumnIndex("isbn");
+            int nomeIndex = result.getColumnIndex("nome");
+            int cidadeIndex = result.getColumnIndex("cidade");
+            int telefoneIndex = result.getColumnIndex("telefone");
 
-            lblTitulo.setText(result.getString(tituloIndex));
-            lblEditora.setText(result.getString(editoraIndex));
-            lblISBN.setText(result.getString(isbnIndex));
+            lblNome.setText(result.getString(nomeIndex));
+            lblCidade.setText(result.getString(cidadeIndex));
+            lblTelefone.setText(result.getString(telefoneIndex));
             result.close();
             databaseConnector.close();
         }
@@ -87,24 +87,24 @@ public class ViewClienteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.editItem:
-                Intent addEditLivro = new Intent(this, AddNovoClienteActivity.class);
+                Intent addEditCliente = new Intent(this, AddNovoClienteActivity.class);
 
-                addEditLivro.putExtra(MainActivity.LINHA_ID, idLinha);
-                addEditLivro.putExtra("titulo", lblTitulo.getText());
-                addEditLivro.putExtra("editora", lblEditora.getText());
-                addEditLivro.putExtra("isbn", lblISBN.getText());
+                addEditCliente.putExtra(MainActivity.LINHA_ID, idLinha);
+                addEditCliente.putExtra("nome", lblNome.getText());
+                addEditCliente.putExtra("cidade", lblCidade.getText());
+                addEditCliente.putExtra("telefone", lblTelefone.getText());
 
-                startActivity(addEditLivro);
+                startActivity(addEditCliente);
                 return true;
             case R.id.deleteItem:
-                deleteLivro();
+                deleteCliente();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void deleteLivro(){
+    private void deleteCliente(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ViewClienteActivity.this);
 
@@ -123,7 +123,7 @@ public class ViewClienteActivity extends AppCompatActivity {
                             protected Object doInBackground(Long... params){
                                 try{
                                     conexaoDB.open();
-                                    conexaoDB.excluiTitulo(params[0]);
+                                    conexaoDB.excluiCliente(params[0]);
                                     conexaoDB.close();
                                 }
                                 catch(SQLException e){

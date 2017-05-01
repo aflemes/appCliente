@@ -9,20 +9,22 @@ import android.util.Log;
 
 public class DBAdapter {
     public static final String KEY_ROWID = "_id";
-    public static final String KEY_TITULO = "titulo";
-    public static final String KEY_EDITORA = "editora";
-    public static final String KEY_ISBN = "isbn";
+    public static final String KEY_NOME = "nome";
+    public static final String KEY_CIDADE = "cidade";
+    public static final String KEY_TELEFONE = "telefone";
+    public static final String KEY_VENDAS = "vendas";
     private static final String TAG = "DBAdapter";
 
-    private static final String DATABASE_NAME = "Exemplo01BD";
-    private static final String DATABASE_TABLE = "livros";
+    private static final String DATABASE_NAME = "dbcliente";
+    private static final String DATABASE_TABLE = "clientes";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String CRIA_DATABASE = "create table livros " +
+    private static final String CRIA_DATABASE = "create table clientes " +
             "(_id integer primary key autoincrement, " +
-            " titulo text not null," +
-            " editora text not null," +
-            " isbn text not null);" ;
+            " nome text not null," +
+            " cidade text not null," +
+            " telefone text not null," +
+            " vendas text not null);" ;
     private final Context context;
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
@@ -71,29 +73,30 @@ public class DBAdapter {
     }
 
     //---insere um Livro na base da dados ---
-    public long insereLivro(String titulo, String editora, String isbn){
+    public long insereCliente(String nome, String cidade, String telefone, String vendas){
         ContentValues dados = new ContentValues();
-        dados.put(KEY_TITULO, titulo);
-        dados.put(KEY_EDITORA, editora);
-        dados.put(KEY_ISBN, isbn);
+        dados.put(KEY_NOME, nome);
+        dados.put(KEY_CIDADE, cidade);
+        dados.put(KEY_TELEFONE, telefone);
+        dados.put(KEY_VENDAS, vendas);
         return db.insert(DATABASE_TABLE, null, dados);
     }
 
     //--- exclui um livro---
-    public boolean excluiTitulo(long idLinha){
+    public boolean excluiCliente(long idLinha){
         return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + idLinha, null) > 0;
     }
 
     //--- devolve todos os livros---
-    public Cursor getTodosTitulos(){
-        String colunas[] ={KEY_ROWID,KEY_TITULO,KEY_EDITORA,KEY_ISBN};
+    public Cursor getTodosClientes(){
+        String colunas[] ={KEY_ROWID,KEY_NOME,KEY_CIDADE,KEY_TELEFONE,KEY_VENDAS};
         return db.query(DATABASE_TABLE,colunas, null, null, null, null, null);
     }
 
     //--- recupera uma linha (livro) ---
-    public Cursor getLivro(long idLinha) throws SQLException{
+    public Cursor getCliente(long idLinha) throws SQLException{
 
-        String colunas[] ={KEY_ROWID,KEY_TITULO,KEY_EDITORA,KEY_ISBN};
+        String colunas[] ={KEY_ROWID,KEY_NOME,KEY_CIDADE,KEY_TELEFONE,KEY_VENDAS};
         String linhaAcessada = KEY_ROWID + "=" + idLinha;
         Cursor mCursor = db.query(DATABASE_TABLE, colunas,linhaAcessada,null,null,null,null,null);
 
@@ -104,13 +107,14 @@ public class DBAdapter {
     }
 
     //--- atualiza um titulo---
-    public boolean alteraTitulo(long idLinha, String titulo, String editora,String isbn){
+    public boolean alteraCliente(long idLinha, String nome, String cidade,String telefone, String vendas){
         ContentValues dados = new ContentValues();
         String linhaAcessada = KEY_ROWID + "=" + idLinha;
 
-        dados.put(KEY_TITULO, titulo);
-        dados.put(KEY_EDITORA, editora);
-        dados.put(KEY_ISBN, isbn);
+        dados.put(KEY_NOME, nome);
+        dados.put(KEY_CIDADE, cidade);
+        dados.put(KEY_TELEFONE, telefone);
+        dados.put(KEY_VENDAS, vendas);
 
         return db.update(DATABASE_TABLE, dados, linhaAcessada, null)>0;
     }

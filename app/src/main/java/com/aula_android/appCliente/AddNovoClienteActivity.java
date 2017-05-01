@@ -12,9 +12,10 @@ import android.widget.EditText;
 
 public class AddNovoClienteActivity extends AppCompatActivity {
     private long idLinha;
-    private EditText txtTitulo;
-    private EditText txtEditora;
-    private EditText txtISBN;
+    private EditText txtNome;
+    private EditText txtCidade;
+    private EditText txtTelefone;
+    private EditText txtVendas;
     private Button btnSalvar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,18 +24,18 @@ public class AddNovoClienteActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        txtTitulo = (EditText) findViewById(R.id.txtTitulo);
-        txtEditora = (EditText) findViewById(R.id.txtEditora);
-        txtISBN = (EditText) findViewById(R.id.txtISBN);
+        txtNome = (EditText) findViewById(R.id.txtNome);
+        txtCidade = (EditText) findViewById(R.id.txtCidade);
+        txtTelefone = (EditText) findViewById(R.id.txtTelefone);
 
         Bundle extras = getIntent().getExtras();
 
         // Se há extras, usa os valores para preencher a tela
         if (extras != null){
             idLinha = extras.getLong("idLinha");
-            txtTitulo.setText(extras.getString("titulo"));
-            txtEditora.setText(extras.getString("editora"));
-            txtISBN.setText(extras.getString("isbn"));
+            txtNome.setText(extras.getString("nome"));
+            txtCidade.setText(extras.getString("cidade"));
+            txtTelefone.setText(extras.getString("telefone"));
         }
 
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
@@ -52,11 +53,11 @@ public class AddNovoClienteActivity extends AppCompatActivity {
     }
     View.OnClickListener salvarLivroButtonClicked = new View.OnClickListener(){
         public void onClick(View v){
-            if (txtTitulo.getText().length() != 0){
-                AsyncTask<Object, Object, Object> salvaLivroTask = new AsyncTask<Object, Object, Object>(){
+            if (txtNome.getText().length() != 0){
+                AsyncTask<Object, Object, Object> salvaClienteTask = new AsyncTask<Object, Object, Object>(){
                     @Override
                     protected Object doInBackground(Object... params){
-                        salvaLivro(); // Salva o livro na base de dados
+                        salvaCliente(); // Salva o livro na base de dados
                         return null;
                     } // end method doInBackground
 
@@ -67,7 +68,7 @@ public class AddNovoClienteActivity extends AppCompatActivity {
                 };
 
                 // Salva o livro no BD usando uma thread separada
-                salvaLivroTask.execute();
+                salvaClienteTask.execute();
             } // end if
             else {
                 // Cria uma caixa de diálogo
@@ -81,21 +82,25 @@ public class AddNovoClienteActivity extends AppCompatActivity {
     };
 
     // Salva o livro na base de dados
-    private void salvaLivro(){
+    private void salvaCliente(){
         DBAdapter databaseConnector = new DBAdapter(this);
         try{
             databaseConnector.open();
             if (getIntent().getExtras() == null){
-                databaseConnector.insereLivro(
-                        txtTitulo.getText().toString(),
-                        txtEditora.getText().toString(),
-                        txtISBN.getText().toString());
+                databaseConnector.insereCliente(
+                        txtNome.getText().toString(),
+                        txtCidade.getText().toString(),
+                        txtTelefone.getText().toString(),
+                        "0");
+                        //txtVendas.getText().toString());
             }
             else{
-                databaseConnector.alteraTitulo(idLinha,
-                        txtTitulo.getText().toString(),
-                        txtEditora.getText().toString(),
-                        txtISBN.getText().toString());
+                databaseConnector.alteraCliente(idLinha,
+                        txtNome.getText().toString(),
+                        txtCidade.getText().toString(),
+                        txtTelefone.getText().toString(),
+                        "0");
+                        //txtVendas.getText().toString());
             }
             databaseConnector.close();
         }catch(SQLException e){

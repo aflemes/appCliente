@@ -6,28 +6,28 @@
     >
 
     <TextView
-        android:id="@+id/txtTitulo"
+        android:id="@+id/txtNome"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/titulo"
+        android:text="@string/nome"
         android:textSize="20sp"
         android:textColor="#333333"
         android:paddingLeft="5dp"
         />
     <TextView
-        android:id="@+id/txtEditora"
+        android:id="@+id/txtCidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtTitulo"
-        android:text="@string/editora"
+        android:layout_below="@+id/txtNome"
+        android:text="@string/cidade"
         android:textColor="#333333"
         android:paddingLeft="5dp"   />
     <TextView
-        android:id="@+id/txtISBN"
+        android:id="@+id/txtTelefone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtTitulo"
+        android:layout_below="@+id/txtNome"
         android:layout_alignParentRight="true"
-        android:text="@string/isbn"
+        android:text="@string/telefone"
         android:textColor="#333333"  />
 </RelativeLayout>
