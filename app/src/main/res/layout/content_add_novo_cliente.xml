@@ -57,6 +57,20 @@
         android:inputType="text"
         android:ems="10" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vendas"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/txtVendas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" />
+
     <Button
         android:id="@+id/btnSalvar"
         android:layout_width="fill_parent"

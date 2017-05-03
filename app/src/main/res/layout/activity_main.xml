@@ -7,7 +7,12 @@
     android:fitsSystemWindows="true"
     tools:context="com.aula_android.appCliente.MainActivity">
 
-    <include layout="@layout/content_main" />
+
+    <include layout="@layout/content_main"
+        android:id="@+id/include" android:visibility="invisible"/>
+
+    <include layout="@layout/content_search_cliente"
+        android:id="@+id/include"/>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,6 +27,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
     <!--
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

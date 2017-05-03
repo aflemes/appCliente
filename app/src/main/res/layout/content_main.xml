@@ -12,8 +12,8 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="440dp"
         android:id="@+id/listView"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1" />
+        android:layout_gravity="center_vertical" />
+
 </LinearLayout>

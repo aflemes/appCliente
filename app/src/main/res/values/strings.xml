@@ -11,10 +11,12 @@
     <string name="nome">Nome do Cliente</string>
     <string name="cidade">Cidade do Cliente</string>
     <string name="telefone">Telefone do Cliente</string>
+    <string name="vendas">Vendas do Cliente</string>
 
-    <string name="rotuloNome">Nome do Cliente:</string>
+    <string name="rotuloNome">Nome:</string>
     <string name="rotuloCidade">Cidade:</string>
     <string name="rotuloTelefone">Telefone:</string>
+    <string name="rotuloVendas">Qtde. Vendas:</string>
     <string name="gravar">Gravar Cliente</string>
 
     <string name="tituloErro">Necessário preencher o nome do cliente!</string>
@@ -28,4 +30,12 @@
     <string name="title_activity_add_novo_livro">AddNovoClienteActivity</string>
     <string name="title_activity_view_livros">ViewClienteActivity</string>
     <string name="title_activity_consulta_livros">ConsultaClientesActivity</string>
+
+
+    <string-array name="filtros">
+        <item>Todos</item>
+        <item>Nome</item>
+        <item>Cidade</item>
+    </string-array>
+
 </resources>

@@ -30,22 +30,13 @@ public class MainActivity extends AppCompatActivity {
         clientesListView.setOnItemClickListener(viewClientesListener);
 
         // mapeia cada coluna da tabela com um componente da tela
-        String[] origem = new String[]{"nome","cidade","telefone"};
-        int[] destino = new int[] { R.id.txtNome, R.id.txtCidade, R.id.txtTelefone};
+        String[] origem = new String[]{"nome","cidade","vendas","telefone"};
+        int[] destino = new int[] { R.id.txtNome, R.id.txtCidade, R.id.txtVendas,R.id.txtTelefone};
         int flags = 0;
 
         clientesAdapter = new SimpleCursorAdapter(MainActivity.this,R.layout.activity_view_clientes,null,origem,destino,flags);
         clientesListView.setAdapter(clientesAdapter);
 
-     /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    */
     }
     @Override
     protected void onResume(){

@@ -18,6 +18,7 @@ public class ViewClienteActivity extends AppCompatActivity {
     private TextView lblNome;
     private TextView lblCidade;
     private TextView lblTelefone;
+    private TextView lblVendas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,32 +26,23 @@ public class ViewClienteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_consulta_clientes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Consulta Cliente");
 
         lblNome = (TextView) findViewById(R.id.lblNome);
         lblCidade = (TextView) findViewById(R.id.lblCidade);
         lblTelefone = (TextView) findViewById(R.id.lblTelefone);
+        lblVendas = (TextView) findViewById(R.id.lblVendas);
 
         Bundle extras = getIntent().getExtras();
         idLinha = extras.getLong(MainActivity.LINHA_ID);
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
     }
     @Override
     protected void onResume(){
         super.onResume();
-        new CarregaLivroTask().execute(idLinha);
+        new CarregaClienteTask().execute(idLinha);
     }
     // Executa a consulta em uma thead separada
-    private class CarregaLivroTask extends AsyncTask<Long, Object, Cursor> {
+    private class CarregaClienteTask extends AsyncTask<Long, Object, Cursor> {
         DBAdapter databaseConnector = new DBAdapter(ViewClienteActivity.this);
 
         @Override
@@ -68,10 +60,13 @@ public class ViewClienteActivity extends AppCompatActivity {
             int nomeIndex = result.getColumnIndex("nome");
             int cidadeIndex = result.getColumnIndex("cidade");
             int telefoneIndex = result.getColumnIndex("telefone");
+            int vendasIndex = result.getColumnIndex("vendas");
 
             lblNome.setText(result.getString(nomeIndex));
             lblCidade.setText(result.getString(cidadeIndex));
             lblTelefone.setText(result.getString(telefoneIndex));
+            lblVendas.setText(result.getString(vendasIndex));
+
             result.close();
             databaseConnector.close();
         }
@@ -93,6 +88,7 @@ public class ViewClienteActivity extends AppCompatActivity {
                 addEditCliente.putExtra("nome", lblNome.getText());
                 addEditCliente.putExtra("cidade", lblCidade.getText());
                 addEditCliente.putExtra("telefone", lblTelefone.getText());
+                addEditCliente.putExtra("vendas", lblVendas.getText());
 
                 startActivity(addEditCliente);
                 return true;

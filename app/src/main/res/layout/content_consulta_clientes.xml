@@ -9,12 +9,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_consulta_clientes">
-    <!--tools:context="com.aula_android.appCliente.ConsultaLivrosActivity"<!-->
+    tools:showIn="@layout/activity_consulta_clientes"
+    tools:context="com.aula_android.appCliente.ViewClienteActivity">
+
     <TableRow
         android:id="@+id/tableRow1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView1"
@@ -69,6 +70,27 @@
             android:id="@+id/lblTelefone"
             style="@style/LivroTextView"
             android:text="@string/telefone"
+            android:textColor="@color/preto"
+            android:textSize="20sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/LivroLabelTextView"
+            android:text="@string/rotuloVendas"
+            android:textColor="@color/preto"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/lblVendas"
+            style="@style/LivroTextView"
+            android:text="@string/vendas"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 

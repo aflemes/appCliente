@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,10 +24,15 @@ public class AddNovoClienteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_novo_cliente);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Adicionar novo cliente");
 
         txtNome = (EditText) findViewById(R.id.txtNome);
         txtCidade = (EditText) findViewById(R.id.txtCidade);
         txtTelefone = (EditText) findViewById(R.id.txtTelefone);
+
+        txtTelefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher("BR"));
+
+        txtVendas = (EditText) findViewById(R.id.txtVendas);
 
         Bundle extras = getIntent().getExtras();
 
@@ -36,6 +42,7 @@ public class AddNovoClienteActivity extends AppCompatActivity {
             txtNome.setText(extras.getString("nome"));
             txtCidade.setText(extras.getString("cidade"));
             txtTelefone.setText(extras.getString("telefone"));
+            txtVendas.setText(extras.getString("vendas"));
         }
 
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
@@ -91,16 +98,14 @@ public class AddNovoClienteActivity extends AppCompatActivity {
                         txtNome.getText().toString(),
                         txtCidade.getText().toString(),
                         txtTelefone.getText().toString(),
-                        "0");
-                        //txtVendas.getText().toString());
+                        txtVendas.getText().toString());
             }
             else{
                 databaseConnector.alteraCliente(idLinha,
                         txtNome.getText().toString(),
                         txtCidade.getText().toString(),
                         txtTelefone.getText().toString(),
-                        "0");
-                        //txtVendas.getText().toString());
+                        txtVendas.getText().toString());
             }
             databaseConnector.close();
         }catch(SQLException e){
