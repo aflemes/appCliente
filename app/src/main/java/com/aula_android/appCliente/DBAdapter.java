@@ -87,7 +87,13 @@ public class DBAdapter {
         return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + idLinha, null) > 0;
     }
 
-    //--- devolve todos os livros---
+    //--- devolve todos os clientes---
+    public Cursor getTodosClientesByName(String nomeAux){
+        String colunas[] ={KEY_ROWID,KEY_NOME,KEY_CIDADE,KEY_TELEFONE,KEY_VENDAS};
+        return db.query(DATABASE_TABLE,colunas, null, null, null, null, null);
+    }
+
+    //--- devolve todos os clientes por nome---
     public Cursor getTodosClientes(){
         String colunas[] ={KEY_ROWID,KEY_NOME,KEY_CIDADE,KEY_TELEFONE,KEY_VENDAS};
         return db.query(DATABASE_TABLE,colunas, null, null, null, null, null);

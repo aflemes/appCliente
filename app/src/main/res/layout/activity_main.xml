@@ -9,10 +9,22 @@
 
 
     <include layout="@layout/content_main"
-        android:id="@+id/include" android:visibility="invisible"/>
+        android:id="@+id/include"
+        android:layout_gravity="bottom"
+        android:layout_height="440dp"
+        android:layout_width="match_parent" />
 
-    <include layout="@layout/content_search_cliente"
-        android:id="@+id/include"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:context="com.aula_android.appCliente.MainActivity"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include layout="@layout/content_search_cliente"
+            android:id="@+id/include"/>
+    </LinearLayout>
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

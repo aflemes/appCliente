@@ -10,14 +10,18 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
     private ListView clientesListView;
     public static final String LINHA_ID = "idLinha";
     private CursorAdapter clientesAdapter; // Adaptador para a ListView
+    private Button btnBuscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         clientesListView = (ListView) findViewById(R.id.listView);
         clientesListView.setOnItemClickListener(viewClientesListener);
 
+        btnBuscar = (Button) findViewById(R.id.btnBuscar);
+        btnBuscar.setOnClickListener(buscarClienteButtonClicked);
+
         // mapeia cada coluna da tabela com um componente da tela
         String[] origem = new String[]{"nome","cidade","vendas","telefone"};
         int[] destino = new int[] { R.id.txtNome, R.id.txtCidade, R.id.txtVendas,R.id.txtTelefone};
@@ -38,6 +45,30 @@ public class MainActivity extends AppCompatActivity {
         clientesListView.setAdapter(clientesAdapter);
 
     }
+
+    View.OnClickListener buscarClienteButtonClicked = new View.OnClickListener(){
+        public void onClick(View v){
+            Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+            if (spinner.getSelectedItem().toString().equals("Todos")){
+                AsyncTask<Object, Object, Object> salvaClienteTask = new AsyncTask<Object, Object, Object>(){
+                    @Override
+                    protected Object doInBackground(Object... params){
+                        onResume();
+                        return null;
+                    } // end method doInBackground
+
+                    @Override
+                    protected void onPostExecute(Object result){
+                        finish(); // Fecha a atividade
+                    }
+                };
+            }else
+                if (spinner.getSelectedItem().toString().equals("Nome")){
+                    new getClientesByName().execute();
+                }
+        }
+    };
     @Override
     protected void onResume(){
         //sempre que executar onResume, irá fazer uma busca no banco de dados
@@ -55,6 +86,23 @@ public class MainActivity extends AppCompatActivity {
         protected Cursor doInBackground(Object... params){
             conexaoDB.open(); //abre a base de dados
             return conexaoDB.getTodosClientes(); //retorna todos os livros
+        }
+        // usa o cursor retornado pelo doInBackground
+        @Override
+        protected void onPostExecute(Cursor result){
+            clientesAdapter.changeCursor(result); //altera o cursor para um novo cursor
+            conexaoDB.close();
+        }
+    }
+    private class getClientesByName extends AsyncTask<Object, Object, Cursor> {
+        DBAdapter conexaoDB = new DBAdapter(MainActivity.this);
+        @Override
+        protected Cursor doInBackground(Object... params){
+            EditText filtro = (EditText) findViewById(R.id.filtro);
+            //String varAux = filtro.getText().toString();
+
+            conexaoDB.open(); //abre a base de dados
+            return conexaoDB.getTodosClientesByName(""); //retorna todos os livros
         }
         // usa o cursor retornado pelo doInBackground
         @Override
