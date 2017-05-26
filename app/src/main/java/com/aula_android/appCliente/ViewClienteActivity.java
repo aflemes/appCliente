@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ViewClienteActivity extends AppCompatActivity {
@@ -112,7 +113,6 @@ public class ViewClienteActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int button){
                         final DBAdapter conexaoDB = new DBAdapter(ViewClienteActivity.this);
-
 
                         AsyncTask<Long, Object, Object> deleteTask = new AsyncTask<Long, Object, Object>(){
                             @Override

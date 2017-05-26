@@ -1,14 +1,19 @@
 package com.aula_android.appCliente;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
@@ -16,12 +21,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ListView clientesListView;
     public static final String LINHA_ID = "idLinha";
     private CursorAdapter clientesAdapter; // Adaptador para a ListView
     private Button btnBuscar;
+    private String varAux;
+    private EditText txtFiltro;
+    private long idLinha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,25 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     View.OnClickListener buscarClienteButtonClicked = new View.OnClickListener(){
         public void onClick(View v){
-            Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
-            if (spinner.getSelectedItem().toString().equals("Todos")){
-                AsyncTask<Object, Object, Object> salvaClienteTask = new AsyncTask<Object, Object, Object>(){
-                    @Override
-                    protected Object doInBackground(Object... params){
-                        onResume();
-                        return null;
-                    } // end method doInBackground
-
-                    @Override
-                    protected void onPostExecute(Object result){
-                        finish(); // Fecha a atividade
-                    }
-                };
-            }else
-                if (spinner.getSelectedItem().toString().equals("Nome")){
-                    new getClientesByName().execute();
-                }
+            hideSoftKeyboard();
+            onResume();
         }
     };
     @Override
@@ -74,7 +68,22 @@ public class MainActivity extends AppCompatActivity {
         //sempre que executar onResume, irá fazer uma busca no banco de dados
         //e vai atualizar a tela de exibição dos livros cadastrados
         super.onResume();
-        new ObtemClientes().execute();
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        txtFiltro = (EditText) findViewById(R.id.filtro);
+        varAux = txtFiltro.getText().toString();
+
+        switch (spinner.getSelectedItem().toString()){
+            case "Cidade":
+                new getClientesByCity().execute();
+                break;
+            case "Nome":
+                new getClientesByName().execute();
+                break;
+            case "Todos":
+                new ObtemClientes().execute();
+                break;
+        }
     }
     ////////////////////////////////////////////////////////////
     // Quando precisamos dos resultados de uma operação do BD na thread da
@@ -98,11 +107,23 @@ public class MainActivity extends AppCompatActivity {
         DBAdapter conexaoDB = new DBAdapter(MainActivity.this);
         @Override
         protected Cursor doInBackground(Object... params){
-            EditText filtro = (EditText) findViewById(R.id.filtro);
-            //String varAux = filtro.getText().toString();
-
             conexaoDB.open(); //abre a base de dados
-            return conexaoDB.getTodosClientesByName(""); //retorna todos os livros
+            return conexaoDB.getTodosClientesByName(varAux); //retorna todos os livros
+        }
+        // usa o cursor retornado pelo doInBackground
+        @Override
+        protected void onPostExecute(Cursor result){
+            clientesAdapter.changeCursor(result); //altera o cursor para um novo cursor
+            conexaoDB.close();
+        }
+    }
+
+    private class getClientesByCity extends AsyncTask<Object, Object, Cursor> {
+        DBAdapter conexaoDB = new DBAdapter(MainActivity.this);
+        @Override
+        protected Cursor doInBackground(Object... params){
+            conexaoDB.open(); //abre a base de dados
+            return conexaoDB.getTodosClientesByCity(varAux); //retorna todos os livros
         }
         // usa o cursor retornado pelo doInBackground
         @Override
@@ -116,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
     //é executada, para exibir os dados do livro selecionado
     AdapterView.OnItemClickListener viewClientesListener = new AdapterView.OnItemClickListener(){
         public void onItemClick(AdapterView<?> parent, View view, int posicao,long id){
-            Intent viewLivros = new Intent(getApplicationContext(), ViewClienteActivity.class);
-            viewLivros.putExtra(LINHA_ID, id);
-            startActivity(viewLivros);
+            Intent viewCliente = new Intent(getApplicationContext(), ViewClienteActivity.class);
+            viewCliente.putExtra(LINHA_ID, id);
+            startActivity(viewCliente);
         }
     };
 
@@ -135,8 +156,61 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         //Cria uma intenção para executar o cadastramento de um novo livro
-        Intent addNovoCliente = new Intent(getApplicationContext(), AddNovoClienteActivity.class);
-        startActivity(addNovoCliente);
+        switch (item.getItemId()) {
+            case R.id.addLivroItem:
+                Intent addNovoCliente = new Intent(getApplicationContext(), AddNovoClienteActivity.class);
+                startActivity(addNovoCliente);
+            break;
+            case R.id.removeCliente:
+                deleteTodosCliente();
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
+
     }
+
+    private void deleteTodosCliente(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        builder.setTitle(R.string.confirmaTitulo);
+        builder.setMessage(R.string.confirmaMensagemSelecao);
+
+        // provide an OK button that simply dismisses the dialog
+        builder.setPositiveButton(R.string.botao_delete,
+            new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int button){
+                    final DBAdapter conexaoDB = new DBAdapter(MainActivity.this);
+
+                    ListView viewTemp = (ListView) findViewById(R.id.listView);
+                    ArrayList<Integer> removeItens = new ArrayList<>();
+
+                    for (int i=0;i < viewTemp.getChildCount();i++){
+                        removeItens.add(viewTemp.getAdapter().getView(i, null, viewTemp).getId());
+                        Log.d("item",removeItens.get(i).toString());
+                    }
+
+                    try{
+                        conexaoDB.open();
+                        Log.d("param","param");
+                        conexaoDB.excluiTodosCliente(removeItens);
+                        conexaoDB.close();
+                    }
+                    catch(SQLException e){
+                        e.printStackTrace();
+                    }
+                }
+            }); // finaliza o  método setPositiveButton
+
+        builder.setNegativeButton(R.string.botao_cancel, null);
+        builder.show();
+    }
+
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menuitem_add_cliente">Adicionar um Cliente</string>
+    <string name="menuitem_remove">Remover TODOS da seleção</string>
     <string name="menuitem_edit_cliente">Alterar um Cliente</string>
     <string name="menuitem_delete_cliente">Excluir um Cliente</string>
 
@@ -27,6 +28,7 @@
 
     <string name="confirmaTitulo">Você está certo?</string>
     <string name="confirmaMensagem">Essa ação irá excluir permanentement o cliente!</string>
+    <string name="confirmaMensagemSelecao">Essa ação irá excluir permanentement TODOS os cliente da seleção!</string>
     <string name="title_activity_add_novo_livro">AddNovoClienteActivity</string>
     <string name="title_activity_view_livros">ViewClienteActivity</string>
     <string name="title_activity_consulta_livros">ConsultaClientesActivity</string>
@@ -36,6 +38,7 @@
         <item>Todos</item>
         <item>Nome</item>
         <item>Cidade</item>
+        <item>Acima do valor</item>
     </string-array>
 
 </resources>

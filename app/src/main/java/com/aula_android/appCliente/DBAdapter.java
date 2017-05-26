@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class DBAdapter {
     public static final String KEY_ROWID = "_id";
     public static final String KEY_NOME = "nome";
@@ -82,15 +84,30 @@ public class DBAdapter {
         return db.insert(DATABASE_TABLE, null, dados);
     }
 
-    //--- exclui um livro---
+    //--- exclui um cliente ---
     public boolean excluiCliente(long idLinha){
         return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + idLinha, null) > 0;
+    }
+    public boolean excluiTodosCliente(ArrayList<Integer> idLinha){
+
+        for (int i=0;i<idLinha.size();i++){
+            db.delete(DATABASE_TABLE, KEY_ROWID + "=" + idLinha.get(i), null);
+        }
+        return true;
     }
 
     //--- devolve todos os clientes---
     public Cursor getTodosClientesByName(String nomeAux){
         String colunas[] ={KEY_ROWID,KEY_NOME,KEY_CIDADE,KEY_TELEFONE,KEY_VENDAS};
-        return db.query(DATABASE_TABLE,colunas, null, null, null, null, null);
+        String whereClause = "nome like '%" + nomeAux + "%'";
+
+        return db.query(DATABASE_TABLE,colunas, whereClause, null, null, null, null);
+    }
+    public Cursor getTodosClientesByCity(String nomeAux){
+        String colunas[] ={KEY_ROWID,KEY_NOME,KEY_CIDADE,KEY_TELEFONE,KEY_VENDAS};
+        String whereClause = "cidade like '%" + nomeAux + "%'";
+
+        return db.query(DATABASE_TABLE,colunas, whereClause, null, null, null, null);
     }
 
     //--- devolve todos os clientes por nome---
